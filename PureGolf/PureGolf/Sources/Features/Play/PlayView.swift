@@ -1,15 +1,20 @@
 import SwiftUI
 
 struct PlayView: View {
+    @StateObject private var scorecardService = ScorecardService.shared
     @State private var holeNumber = 1
     @State private var par = 4
     @State private var handicap = 12
-    @State private var score = 0
     @State private var aiSuggestion = "7 Iron • 158 yds • Wind: +4 mph"
     @State private var showingAR = false
     @State private var selectedClub = "7 Iron"
+    @State private var showingShotTracker = false
 
     let clubs = ["Driver","3 Wood","5 Iron","6 Iron","7 Iron","8 Iron","9 Iron","PW","SW","Putter"]
+    
+    private var currentHole: HoleScore? {
+        scorecardService.currentRound?.holes.first { $0.holeNumber == holeNumber }
+    }
 
     var body: some View {
         ScrollView {
@@ -20,7 +25,19 @@ struct PlayView: View {
                         Text("Par \(par) • HCP \(handicap)").font(.subheadline).foregroundStyle(PGColors.subtext)
                     }
                     Spacer()
-                    Text("Score: \(score)").font(.headline).foregroundStyle(PGColors.text)
+                    HStack(spacing: 12) {
+                        if let hole = currentHole {
+                            Text("Score: \(hole.strokes > 0 ? "\(hole.strokes)" : "-")")
+                                .font(.headline)
+                                .foregroundStyle(PGColors.text)
+                            
+                            Text("Shots: \(hole.shots.count)")
+                                .font(.subheadline)
+                                .foregroundStyle(PGColors.subtext)
+                        } else {
+                            Text("Score: -").font(.headline).foregroundStyle(PGColors.text)
+                        }
+                    }
                 }
                 .padding()
                 .background(PGColors.background.opacity(0.8))
@@ -98,12 +115,29 @@ struct PlayView: View {
                     .padding(.vertical, 6)
                 }
 
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Last Shot").font(.headline).foregroundStyle(PGColors.text)
+                VStack(alignment: .leading, spacing: 12) {
                     HStack {
-                        StatBox(title: "Carry", value: "154 yds")
-                        StatBox(title: "Total", value: "160 yds")
-                        StatBox(title: "Deviation", value: "3L")
+                        Text("Shot Tracking").font(.headline).foregroundStyle(PGColors.text)
+                        Spacer()
+                        Button("Add Shot") {
+                            showingShotTracker = true
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.small)
+                    }
+                    
+                    if let lastShot = currentHole?.shots.last {
+                        HStack {
+                            StatBox(title: "Club", value: lastShot.club)
+                            StatBox(title: "Distance", value: "\(Int(lastShot.distance)) yds")
+                            StatBox(title: "Accuracy", value: lastShot.accuracy.emoji)
+                        }
+                    } else {
+                        HStack {
+                            StatBox(title: "Carry", value: "154 yds")
+                            StatBox(title: "Total", value: "160 yds")
+                            StatBox(title: "Deviation", value: "3L")
+                        }
                     }
                 }
                 .padding()
@@ -119,6 +153,13 @@ struct PlayView: View {
         .pgBackground()
         .navigationTitle("Play")
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showingShotTracker) {
+            if scorecardService.currentRound != nil {
+                ShotTrackerView { shot in
+                    scorecardService.addShot(to: holeNumber, shot: shot)
+                }
+            }
+        }
     }
 }
 

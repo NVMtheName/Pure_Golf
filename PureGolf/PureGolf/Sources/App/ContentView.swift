@@ -25,6 +25,12 @@ struct ContentView: View {
             SwingView()
                 .tabItem { Label("Swing", systemImage: "camera.viewfinder") }
 
+            SocialView()
+                .tabItem { Label("Social", systemImage: "person.2") }
+
+            ScorecardView()
+                .tabItem { Label("Scorecard", systemImage: "doc.text") }
+
             ProfileView()
                 .tabItem { Label("Profile", systemImage: "person.crop.circle") }
         }
