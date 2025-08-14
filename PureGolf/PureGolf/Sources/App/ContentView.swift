@@ -27,6 +27,7 @@ struct ContentView: View {
                 .tabItem { Label("Profile", systemImage: "person.crop.circle") }
         }
         .pgBackground()
+        .ignoresSafeArea(.all)
     }
 }
 
