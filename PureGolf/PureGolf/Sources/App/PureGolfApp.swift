@@ -43,6 +43,9 @@ struct PureGolfApp: App {
         .environmentObject(onCourseCart)
         .statusBarHidden(true)
         .ignoresSafeArea(.all)
+        .task {
+            await NotificationService.shared.requestPermission()
+        }
     }
 }</old_str>
 <new_str>@main

@@ -2,7 +2,9 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var session: AppSession
+    @EnvironmentObject var cartStore: CartStore
     @EnvironmentObject var onCourseCart: OnCourseCartStore
+    @StateObject private var locationService = LocationService.shared
 
     var body: some View {
         TabView {
