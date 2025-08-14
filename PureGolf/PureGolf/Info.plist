@@ -14,8 +14,8 @@
     <string>1</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
-    <key>UILaunchStoryboardName</key>
-    <string>LaunchScreen</string>
+    <key>UILaunchScreen</key>
+	<dict/>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>PURE Golf uses your location to show nearby courses and deliver cart orders to your hole.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
