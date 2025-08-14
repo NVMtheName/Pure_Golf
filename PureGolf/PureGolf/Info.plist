@@ -20,6 +20,24 @@
     <string>PURE Golf uses your location to show nearby courses and deliver cart orders to your hole.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>PURE Golf uses your location to show nearby courses and deliver cart orders to your hole.</string>
+    <key>NSCameraUsageDescription</key>
+	<string>PureGolf needs camera access to record and analyze your golf swing for personalized coaching insights.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>PureGolf needs microphone access to record audio with your swing videos.</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<array>
+			<dict>
+				<key>UISceneConfigurationName</key>
+				<string>WindowGroup</string>
+				<key>UISceneDelegateClassName</key>
+				<string>SceneDelegate</string>
+			</dict>
+		</array>
+	</dict>
     <key>UISupportedInterfaceOrientations</key>
     <array>
         <string>UIInterfaceOrientationPortrait</string>
